@@ -1,5 +1,8 @@
 #Persistent
 #SingleInstance, force
+CoordMode, Tooltip, Screen
+CoordMode, Pixel, Client
+CoordMode, Mouse, Client
 ;; Hey look at you! You're reading the file before running it like you should! There shouldnt be anything malicious, keep looking though.
 ;; btw this is by Salty, ASaltyAccount, asaltyacc, idrc what I'm called but I'm taking credit :D
 ;; feel free to edit this to do whatever else you want, I may add OCR later to be able to read numbers instead of just reseting at set levels (currently planned to be 50)
@@ -27,26 +30,33 @@ F3::Reload
 
 F4::ExitApp
 
+F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) : "") """"
+
 ;; main loop Stuff
 
     mainLoop() {
         rt = 0
         checkRoblox()
         selectRoblox()
+        if(checkMenu()==1) {
+            resetChar()
+        }
         loop {
             rt++
+            tooltip, It's the final countdown! %rt%/50(Till u reset/reset ur lvl), 1280, 20
             checkRoblox()
             if(checkMenu()==0) {
                 clickX()
                 respawn()
-                rt = 0
             }
-            if(rt==100) {
-                resetChar()
+            if(rt>=50) {
+                rt = 0
                 if(resLvl==true) {
                     resetLvl()
                     respawn()
                 }
+                else
+                    resetChar()
                 respawn()
             }
             loop, 100 {
@@ -65,7 +75,7 @@ F4::ExitApp
     ; starting-menu
     clickMainPlay() {
         click, 1280, 750
-        sleep, 250
+        sleep, 750
         return
     }
 
@@ -78,27 +88,27 @@ F4::ExitApp
     ; play
     clickPlay() {
         click, 1285, 1135
-        sleep, 250
+        sleep, 750
         return
     }
 
     ; summon
     clickSummonBoth() {
         click, 1285, 1200
-        sleep, 250
+        sleep, 750
         return
     }
 
     /*
     clickSwitch() {
         click, 535, 1070
-        sleep, 250
+        sleep, 750
         return
     }
 
     clickInstant() {
         click, 625, 1210
-        sleep, 250
+        sleep, 750
         return
     }
     */
@@ -111,14 +121,14 @@ F4::ExitApp
 
     clickResetYes() {
         click, 420, 710
-        sleep, 250
+        sleep, 750
         return
     }
 
     /*
     clickResetNo() {
         click, 660, 710
-        sleep, 250
+        sleep, 750
         return
     }
     */
@@ -126,13 +136,13 @@ F4::ExitApp
     ; storage
     clickStorageorBack() {
         click, 1285, 1265
-        sleep, 250
+        sleep, 750
         return
     }
 
     clickX() {
         click, 2120, 225
-        sleep, 250
+        sleep, 750
         return
     }    
 
@@ -144,19 +154,19 @@ F4::ExitApp
         send, r
         sleep, 100
         send {enter}
-        sleep, 5000
+        sleep, 7500
         return
     }
 
     exitSpawn() {
-        send, {ctrl}
-        send, {space Down}
-        send, {w Down}
-        send, {d Down}
+        send {Ctrl}
+        send {Space down}
+        send {w down}
+        send {d down}
         sleep, 10000
-        send, {space Up}
-        send, {w Up}
-        send, {d Up}
+        send {Space up}
+        send {w up}
+        send {d up}
         sleep, 250
         return
     }
@@ -173,9 +183,9 @@ F4::ExitApp
     selectRoblox() {
         ifwinexist, Roblox,, Roblox Account Manager
             winactivate, Roblox,, Roblox Account Manager
-        sleep, 250
+        sleep, 750
         click, 1280, 720
-        sleep, 250
+        sleep, 750
         return
     }
 
@@ -183,7 +193,7 @@ F4::ExitApp
         loop, 2 {
             ifwinexist, Roblox,, Roblox Account Manager
                 winclose, Roblox,,, Roblox Account Manager
-            sleep, 250
+            sleep, 750
         }
         sleep, 15000
         return
@@ -196,10 +206,12 @@ F4::ExitApp
     }
 
     resetLvl() {
-        if(checkMenu()==0)
-            clickX()
-        else
-            resetChar()
+        loop, 2 {
+            if(checkMenu()==0)
+                clickX()
+            else
+                resetChar()
+        }
         clickSummonBoth()
         clickResetLvl()
         clickResetYes()
@@ -251,6 +263,7 @@ F4::ExitApp
         loop, 2 {
             clickStorageorBack()
         }
-        imagesearch,,, 925, 175, 1640, 280, %A_ScriptDir%\Images\EssenceStorage.png
+        sleep, 750
+        imagesearch,,, 400, 170, 950, 280, %A_ScriptDir%\Images\EssenceStorage.png
         return ErrorLevel
     }
