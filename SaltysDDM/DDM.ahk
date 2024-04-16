@@ -5,25 +5,27 @@ CoordMode, Pixel, Client
 CoordMode, Mouse, Client
 ;; Hey look at you! You're reading the file before running it like you should! There shouldnt be anything malicious, keep looking though.
 ;; btw this is by Salty, ASaltyAccount, asaltyacc, idrc what I'm called but I'm taking credit :D
-;; feel free to edit this to do whatever else you want, I may add OCR later to be able to read numbers instead of just reseting at set levels (currently planned to be 50)
+;; feel free to edit this to do whatever else you want, I may add OCR later to be able to read numbers instead of just reseting at set levels (currently planned to be 6, 12, or 20)
 ;; first making 2560x1440 then 1920x1080 then idk. They will (PROBABLY) be seperate files since I'm not making a bajillion variables.
 ;; wont be adding multi-acc functionality (alting isnt allowed, get over it or add it urself)
 
+;; variable declaration hell function
+rt := 0
+rl := 0
 
 ;; really simple gui stuff to select the lvl, maybe even just a msgbox tbh
 ;; do this later also make it take the var selLvl (select Level)
 
 F1::
-    resLvl = false
-    mainLoop()
+    mainLoop(0)
 return
 
 F2::
-    resLvl = true
-    tooltip, "you hit F2 and now your lvl will be reset at 50. you have 5 seconds to stop this.", 1280, 720
+    tooltip, You hit F2 and now your lvl will be occassionally reset. You have 5 seconds to press F3, 1280, 720
     sleep, 5000
     tooltip
-    mainLoop()
+    sleep, 500
+    mainLoop(1)
 return
 
 F3::Reload
@@ -34,24 +36,27 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
 
 ;; main loop Stuff
 
-    mainLoop() {
-        rt = 0
+    mainLoop(resLvl) {
+        rt := 0
+        rl := resLvl
+        ;tooltip, rl: %rl%
         checkRoblox()
         selectRoblox()
-        if(checkMenu()==1) {
+        if(checkMenu()==1)
             resetChar()
-        }
         loop {
             rt++
-            tooltip, It's the final countdown! %rt%/50(Till u reset/reset ur lvl), 1280, 20
+            ;tooltip, It's the final countdown! %rt%/5(Till u reset/reset ur lvl), 1280, 20
             checkRoblox()
             if(checkMenu()==0) {
                 clickX()
                 respawn()
             }
-            if(rt>=50) {
-                rt = 0
-                if(resLvl==true) {
+            tooltip, rl: %rl%
+            if(rt>=5) {
+                rt := 0
+                if(rl==1) {
+                    tooltip, entered the cool reset thingy
                     resetLvl()
                     respawn()
                 }
@@ -59,11 +64,11 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
                     resetChar()
                 respawn()
             }
-            loop, 100 {
+            loop, 10 {
                 useAbilities()
             }
             /*
-            if(resLvl==true)
+            if(rl==true)
                 checkLvl()
             */
         }
