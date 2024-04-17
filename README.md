@@ -1,4 +1,5 @@
 This relies on ahk v1.1 to run, you can download that at https://www.autohotkey.com (goto the website to download it)
+Doesnt seem like level resetting is working. fixing it.
 anyways intro
 
 
