@@ -4,7 +4,8 @@ You're monitor's scale MUST be 100% or else it will not work (go to monitors in 
 
 Roblox MUST NOT be full screen or else it will not work (it needs the white bar at the top of the screen)
 
-Adding and testing the auto-gambler
+Will Automatically attempt to target ur main screen
+
 anyways intro
 
 
