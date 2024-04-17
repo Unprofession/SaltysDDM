@@ -198,10 +198,7 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
         selectRoblox()
         clickMainSkip()
         clickMainPlay()
-        if(rl==1)
-            resetLvl()
-        else {
-            
+        if(rl!=1) {
             if(checkMenu()==1)
                 resetChar()
             else
@@ -210,12 +207,16 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
         loop {
             if(checkMenu()==0) {
                 clickX()
+                if(rl==1) {
+                    resetLvl(0)
+                }
                 respawn()
             }
             if(rl==1) {
-                if(checkLvl(5)==0 || checkLvl(6)==0 || checkLvl(7)==0 || checkLvl(8)==0 || checkLvl(9)==0 || checkLvl(10)==0) {
+                ;checkLvl(5)==0 || checkLvl(6)==0 || checkLvl(7)==0 || checkLvl(8)==0 || 
+                if(checkLvl(9)==0 || checkLvl(10)==0) {
                     resetChar()
-                    resetLvl()
+                    resetLvl(0)
                     respawn()
                 }
                 else {
@@ -381,12 +382,16 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
         return
     }
 
-    resetLvl() {
-        loop, 2 {
-            if(checkMenu()==0)
-                clickX()
-            else
-                resetChar()
+    resetLvl(check) {
+        if(check==1) {
+            loop, 2 {
+                if(checkMenu()==0) {
+                    clickX()
+                    break
+                }
+                else
+                    resetChar()
+            }
         }
         clickSummonBoth()
         clickResetLvl()
