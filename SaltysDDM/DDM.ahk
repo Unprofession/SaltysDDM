@@ -213,7 +213,7 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
                 respawn()
             }
             if(rl==1) {
-                if(checkLvl(5)==0 || checkLvl(10)==0 || checkLvl(15)==0) {
+                if(checkLvl(5)==0 || checkLvl(6)==0 || checkLvl(7)==0 || checkLvl(8)==0 || checkLvl(9)==0 || checkLvl(10)==0) {
                     resetChar()
                     resetLvl()
                     respawn()
@@ -412,7 +412,7 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
     checkRoblox() {
         ifwinexist, Roblox,, Roblox Account Manager
         {
-            imagesearch,,, 1190, 560, 1365, 615, %A_ScriptDir%\Images\%route%\Disconnected.png
+            imagesearch,,, 1190, 560, 1365, 615,*10 %A_ScriptDir%\Images\%route%\Disconnected.png
             if(ErrorLevel==0) {
                 closeRoblox()
                 openRoblox()
@@ -427,7 +427,7 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
 
     
     checkLvl(level) {
-        imagesearch,,, %LevelsX1%, %LevelsY1%, %LevelsX2%, %LevelsY2%,*10 %A_ScriptDir%\Images\%route%\Levels\%level%.png
+        imagesearch,,, %LevelsX1%, %LevelsY1%, %LevelsX2%, %LevelsY2%,*20 %A_ScriptDir%\Images\%route%\Levels\%level%.png
         return ErrorLevel
     }
     
