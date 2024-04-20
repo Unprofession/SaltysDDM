@@ -4,10 +4,12 @@
 CoordMode, Tooltip, Screen
 CoordMode, Pixel, Screen
 CoordMode, Mouse, Screen
-getMon()
+
 ;setting vars global
     ; reset level option
     global rl
+    global searchingFor
+    global opt
     ; imagepath
     global route
     ; click locations
@@ -31,6 +33,10 @@ getMon()
     global ResetYesY
     global ResetNoX
     global ResetNoY
+    global ReplaceYesX
+    global ReplaceYesY
+    global ReplaceNoX
+    global ReplaceNoY
     global StorageorBackX
     global StorageorBackY
     global XX
@@ -52,8 +58,34 @@ getMon()
     global LevelsX2
     global LevelsY1
     global LevelsY2
+    global RollEssenceX1
+    global RollEssenceX2
+    global RollEssenceY1
+    global RollEssenceY2
+    global ReplaceEssenceX1
+    global ReplaceEssenceX2
+    global ReplaceEssenceY1
+    global ReplaceEssenceY2
+getMon()
 
 Return
+
+; gui
+creategui() {
+    gui, add, DDL, AltSubmit vopt ghighroll, Destruction|Arcane|Aether|Frost|Light|Darkness|Energy|Lightning|Poisonous|Water|Winds|Earth|Flames
+    gui, show, AutoSize Center, Im feelin lucky
+    return
+}
+
+highroll:
+    gui, submit, nohide
+    searchingFor := opt
+    tooltip, option %searchingFor% selected
+    sleep, 1000
+    tooltip,
+    gui, destroy
+    gambling()
+return
 
 ;; important stuff (monitor size and variables stuff)
 getMon() {
@@ -64,12 +96,13 @@ getMon() {
         setVars(2)
     else
         setVars(3)
+    return
 }
 
 setVars(selected) {
     if(selected==1) {
         ; imagepath
-        route := "2560x1440p"
+        route := "\Images\2560x1440p"
         ; click locations
         ScreenMidX := 1280
         ScreenTopY := 50
@@ -91,6 +124,10 @@ setVars(selected) {
         ResetYesY := 710
         ResetNoX := 660
         ResetNoY := 710
+        ReplaceYesX := 1110
+        ReplaceYesY := 890
+        ReplaceNoX := 1470
+        ReplaceNoY := 890
         StorageorBackX := 1285
         StorageorBackY := 1265
         XX := 2120
@@ -104,19 +141,26 @@ setVars(selected) {
         EssenceStorageX2 := 960
         EssenceStorageY1 := 160
         EssenceStorageY2 := 315
-        DisconnectedX1 := 1060
+        DisconnectedX1 := 1070
         DisconnectedX2 := 1490
-        DisconnectedY1 := 565
+        DisconnectedY1 := 550
         DisconnectedY2 := 850
         LevelsX1 := 5
         LevelsX2 := 225
         LevelsY1 := 1155
         LevelsY2 := 1385
+        RollEssenceX1 := 290
+        RollEssenceX2 := 730
+        RollEssenceY1 := 850
+        RollEssenceY2 := 1240
+        ReplaceEssenceX1 := 800
+        ReplaceEssenceX2 := 1800
+        ReplaceEssenceY1 := 440
+        ReplaceEssenceY2 := 1050
     }
-
     else if(selected==2) {
         ; imagepath
-        route := "1920x1080p"
+        route := "\Images\1920x1080p"
         ; click locations
         ScreenMidX := 960
         ScreenTopY := 50
@@ -138,6 +182,10 @@ setVars(selected) {
         ResetYesY := 555
         ResetNoX := 490
         ResetNoY := 555
+        ReplaceYesX := 830
+        ReplaceYesY := 670
+        ReplaceNoX := 1095
+        ReplaceNoY := 670
         StorageorBackX := 960
         StorageorBackY := 955
         XX := 1585
@@ -159,15 +207,20 @@ setVars(selected) {
         LevelsX2 := 150
         LevelsY1 := 820
         LevelsY2 := 1020
+        RollEssenceX1 := 170
+        RollEssenceX2 := 730
+        RollEssenceY1 := 550
+        RollEssenceY2 := 930
+        ReplaceEssenceX1 := 585
+        ReplaceEssenceX2 := 1335
+        ReplaceEssenceY1 := 330
+        ReplaceEssenceY2 := 760
     }
     else {
-        tooltip, looks like you selected other`nThat means I dont support that monitor size`nThis will now be closed out of
+        tooltip, Your monitor size is not supported by this macro`nExiting
         sleep, 5000
         ExitApp
     }
-    tooltip, selected %route%
-    sleep, 1500
-    tooltip
     return
 }
 
@@ -184,20 +237,27 @@ F2::
     mainLoop(1)
 return
 
-F3::Reload
+F3::
+    ;creategui()
+    tooltip, autoroll is disabled for testing and may not be released due to issues
+    sleep, 3500
+    tooltip,
+return
 
-F4::ExitApp
 
-F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) : "") """"
+F4::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) : "") """"
+
+F5::Reload
+
+F6::ExitApp
 
 ;; main loop Stuff
     mainLoop(resLvl) {
         rl := resLvl
         ;tooltip, rl: %rl%
-        checkRoblox()
         selectRoblox()
+        checkRoblox()
         clickMainSkip()
-        clickMainPlay()
         if(rl!=1) {
             if(checkMenu()==1)
                 resetChar()
@@ -205,6 +265,7 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
                 clickX()
         }
         loop {
+            checkRoblox()
             if(checkMenu()==0) {
                 clickX()
                 if(rl==1) {
@@ -226,11 +287,30 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
                 }
             }
             else {
-                loop, 100 {
+                loop, 50 {
                     useAbilities()
                 }
             }
             
+        }
+        return
+    }
+
+;; gambling central!
+    gambling() {
+        selectRoblox()
+        if(CheckEssence==1) {
+            tooltip, you already have that essence
+            mousemove, %ScreenMidX%, %ScreenTopY%
+            Reload
+        }
+        loop {
+            
+            clickSummonBoth()
+            if(checkEssence()==1) {
+                mousemove, %ScreenMidX%, %ScreenTopY%
+                Reload
+            }
         }
         return
     }
@@ -298,6 +378,18 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
         return
     }
     */
+    
+    clickReplaceYes() {
+        click, %ReplaceYesX%, %ReplaceYesY%
+        sleep, 750
+        return
+    }
+    
+    clickReplaceNo() {
+        click, %ReplaceNoX%, %ReplaceNoY%
+        sleep, 750
+        return
+    }
 
     ; storage
     clickStorageorBack() {
@@ -338,12 +430,13 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
     }
 
     openRoblox() {
+        tooltip, opening roblox
         Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) : "") """"
         loop {
             sleep, 1000
             ifwinexist, Roblox,, Roblox Account Manager
             {
-                clickMainPlay()
+                clickMainSkip()
                 if(checkMenu()==0) {
                     break
                 }
@@ -351,7 +444,6 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
         }
         selectRoblox()
         clickMainSkip()
-        clickMainPlay()
         return
     }
 
@@ -360,17 +452,18 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
             winactivate, Roblox,, Roblox Account Manager
         sleep, 750
         click, %ScreenMidX%, %ScreenTopY%
-        sleep, 750
+        sleep, 1500
         return
     }
 
     closeRoblox() {
-        loop, 2 {
+        loop, 5 {
             ifwinexist, Roblox,, Roblox Account Manager
             {
+                tooltip, closing roblox
                 winclose, Roblox,,, Roblox Account Manager
+                sleep, 500
             }
-            sleep, 750
         }
         sleep, 15000
         return
@@ -417,8 +510,9 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
     checkRoblox() {
         ifwinexist, Roblox,, Roblox Account Manager
         {
-            imagesearch,,, 1190, 560, 1365, 615,*10 %A_ScriptDir%\Images\%route%\Disconnected.png
+            imagesearch,,, %DisconnectedX1%, %DisconnectedY1%, %DisconnectedX2%, %DisconnectedY2%,*10 %A_ScriptDir%%route%\Disconnected.png
             if(ErrorLevel==0) {
+                tooltip, found
                 closeRoblox()
                 openRoblox()
             }
@@ -430,9 +524,8 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
         return
     }
 
-    
     checkLvl(level) {
-        imagesearch,,, %LevelsX1%, %LevelsY1%, %LevelsX2%, %LevelsY2%,*20 %A_ScriptDir%\Images\%route%\Levels\%level%.png
+        imagesearch,,, %LevelsX1%, %LevelsY1%, %LevelsX2%, %LevelsY2%,*20 %A_ScriptDir%%route%\Levels\%level%.png
         return ErrorLevel
     }
     
@@ -441,15 +534,111 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
             clickStorageorBack()
         }
         sleep, 750
-        imagesearch,,, %EssenceStorageX1%, %EssenceStorageY1%, %EssenceStorageX2%, %EssenceStorageY2%, %A_ScriptDir%\Images\%route%\EssenceStorage.png
+        imagesearch,,, %EssenceStorageX1%, %EssenceStorageY1%, %EssenceStorageX2%, %EssenceStorageY2%, %A_ScriptDir%%route%\EssenceStorage.png
         return ErrorLevel
     }
 
+    checkEssence() {
+        found := 0
+        imagesearch,,, %ReplaceEssenceX1%, %ReplaceEssenceY1%, %ReplaceEssenceX2%, %ReplaceEssenceY2%,*25 %A_ScriptDir%%route%\Essences\YSY.png
+        if(ErrorLevel==0)
+            clickReplaceYes()
+        loop {
+            tooltip, you are in the loop
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*25 %A_ScriptDir%%route%\Essences\SwitchEss.png
+            if(ErrorLevel==0)
+                break
+            else
+                sleep, 50
+        }
+        tooltip, you are checking for elements now
+        if(searchingFor==1) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Destruction.png
+            if(ErrorLevel==0)
+                found := 1
+                return 1
+        }
+        else if(searchingFor==2) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Arcane.png
+            if(ErrorLevel==0)
+                found := 2
+                return 1
+        }
+        else if(searchingFor==3) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Aether.png
+            if(ErrorLevel==0)
+                found := 2
+                return 1
+        }
+        else if(searchingFor==4) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Frost.png
+            if(ErrorLevel==0)
+                found := 2
+                return 1
+        }
+        else if(searchingFor==5) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Light.png
+            if(ErrorLevel==0)
+                found := 2
+                return 1
+        }
+        else if(searchingFor==6) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Darkness.png
+            if(ErrorLevel==0)
+                found := 2
+                return 1
+        }
+        else if(searchingFor==7) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Energy.png
+            if(ErrorLevel==0)
+                found := 2
+                return 1
+        }
+        else if(searchingFor==8) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Lightning.png
+            if(ErrorLevel==0)
+                found := 2
+                return 1
+        }
+        else if(searchingFor==9) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Poisonous.png
+            if(ErrorLevel==0)
+                found := 2
+                return 1
+        }
+        else if(searchingFor==10) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Water.png
+            if(ErrorLevel==0)
+                found := 2
+                return 1
+        }
+        else if(searchingFor==11) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Winds.png
+            if(ErrorLevel==0)
+                found := 2
+                return 1
+        }
+        else if(searchingFor==12) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Earth.png
+            if(ErrorLevel==0)
+                found := 2
+                return 1
+        }
+        else if(searchingFor==13) {
+            imagesearch,,, %RollEssenceX1%, %RollEssenceY1%, %RollEssenceX2%, %RollEssenceY2%,*10 %A_ScriptDir%%route%\Essences\Flames.png
+            if(ErrorLevel==0)
+                found := 2
+                return 1
+        }
+        else
+            return 0
+    }
+
+    /*
     CheckMainMenu() {
         ;tooltip, maincheck %route%
         ;sleep, 1000
-        /*
-        imagesearch,,, %SearchMMX1%, %SearchMMY1%, %SearchMMX2%, %SearchMMY2%,*15 %A_ScriptDir%\Images\%route%\SkipMM.png
+        imagesearch,,, %SearchMMX1%, %SearchMMY1%, %SearchMMX2%, %SearchMMY2%,*15 %A_ScriptDir%%route%\SkipMM.png
         if(ErrorLevel==0) {
             tooltip, mainskip
             sleep, 1000
@@ -457,7 +646,7 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
             return true
         }
         else {
-            imagesearch,,, %SearchMMX1%, %SearchMMY1%, %SearchMMX2%, %SearchMMY2%,*15 %A_ScriptDir%\Images\%route%\PlayMM.png
+            imagesearch,,, %SearchMMX1%, %SearchMMY1%, %SearchMMX2%, %SearchMMY2%,*15 %A_ScriptDir%%route%\PlayMM.png
             if(ErrorLevel==0) {
                 tooltip, mainplay
                 sleep, 1000
@@ -465,6 +654,6 @@ F5::Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) :
                 return true
             }
         }
-        */
         return
     }
+    */
