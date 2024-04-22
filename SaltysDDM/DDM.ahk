@@ -239,8 +239,8 @@ return
 
 F3::
     ;creategui()
-    tooltip, autoroll is disabled for testing and may not be released due to issues
-    sleep, 3500
+    tooltip, autoroll is disabled for testing and may not be released due to issues`nAlso because you automatically stop rolling on legendary or higher`nSo just use an autoclicker
+    sleep, 10000
     tooltip,
 return
 
@@ -266,6 +266,7 @@ F6::ExitApp
         }
         loop {
             checkRoblox()
+            click, %MainPlayX%, %MainPlayY%
             if(checkMenu()==0) {
                 clickX()
                 if(rl==1) {
@@ -430,7 +431,7 @@ F6::ExitApp
     }
 
     openRoblox() {
-        tooltip, opening roblox
+        ;tooltip, opening roblox
         Run % """roblox://placeID=14112387344" (linkcode ? ("&linkCode=" linkcode) : "") """"
         loop {
             sleep, 1000
@@ -460,7 +461,7 @@ F6::ExitApp
         loop, 5 {
             ifwinexist, Roblox,, Roblox Account Manager
             {
-                tooltip, closing roblox
+                ;tooltip, closing roblox
                 winclose, Roblox,,, Roblox Account Manager
                 sleep, 500
             }
@@ -512,7 +513,7 @@ F6::ExitApp
         {
             imagesearch,,, %DisconnectedX1%, %DisconnectedY1%, %DisconnectedX2%, %DisconnectedY2%,*10 %A_ScriptDir%%route%\Disconnected.png
             if(ErrorLevel==0) {
-                tooltip, found
+                ;tooltip, found
                 closeRoblox()
                 openRoblox()
             }
