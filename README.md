@@ -12,9 +12,15 @@ anyways intro
 Hello this is Salty :
 I made this macro out of boredom. It is for Divine Duality.
 
-F1 is start : F2 is start and reset at level 8-10 : F3 is autoroll (disabled for testing)
+F1 is start : F2 is start and reset at a level (unsure of the best) : F3 is autoroll (disabled for testing)
 
 F4 is join random public server : F5 is Reload : F6 is Close
+
+To add a vip link code just open the script in notepad or any other text editor
+then read the directions and enter it below the line that says
+
+;; INSERT LINK CODE BELOW
+
 
 This works on 2560x1440p and should work on 1920x1080p : 
 please dm me with any issues (asaltyacc / ASaltyAccount)
