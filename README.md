@@ -17,7 +17,7 @@ F1 is start : F2 is start and reset at a level (unsure of the best) : F3 is auto
 F4 is join random public server : F5 is Reload : F6 is Close
 
 To add a vip link code just open the script in notepad or any other text editor
-then read the directions and enter it below the line that says
+then READ THE DIRECTIONS and enter it below the line that says
 
 ;; INSERT LINK CODE BELOW
 
