@@ -274,7 +274,7 @@ F6::ExitApp
             }
             if(rl==1) {
                 ;checkLvl(5)==0 || checkLvl(6)==0 || 
-                if(checkLvl(30)==0 || checkLvl(31)==0 || checkLvl(32)==0) {
+                if(checkLvl(18)==0 || checkLvl(19)==0 || checkLvl(20)==0) {
                     resetChar()
                     resetLvl(0)
                     respawn()
