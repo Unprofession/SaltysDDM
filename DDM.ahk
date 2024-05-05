@@ -6,7 +6,7 @@ CoordMode, Pixel, Screen
 CoordMode, Mouse, Screen
 
 ;; INSERT LINK CODE BELOW
-global linkcode = "33444164768514880686224590584302"
+global linkcode = ""
 /*
 A vip link code is the numbers at the end of your vip link
 Here is an example of your vip link
@@ -308,7 +308,7 @@ F6::ExitApp
                 respawn()
             }
             if(rl==1) {
-                if(checkLvl(3)==0 || checkLvl(4)==0 || checkLvl(5)==0) {
+                if(checkLvl(7)==0 || checkLvl(8)==0 || checkLvl(9)==0) {
                     resetChar()
                     resetLvl(0)
                     respawn()
