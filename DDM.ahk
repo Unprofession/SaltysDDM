@@ -6,7 +6,7 @@ CoordMode, Pixel, Screen
 CoordMode, Mouse, Screen
 
 ;; INSERT LINK CODE BELOW
-global linkcode = ""
+global linkcode = "33444164768514880686224590584302"
 /*
 A vip link code is the numbers at the end of your vip link
 Here is an example of your vip link
@@ -77,6 +77,14 @@ global linkcode = "12345678901234567890123456789012"
     global ReplaceEssenceX2
     global ReplaceEssenceY1
     global ReplaceEssenceY2
+    global HpX1
+    global HpX2
+    global HpY1
+    global HpY2
+    global spX1
+    global spX2
+    global spY1
+    global spY2
 getMon()
 
 Return
@@ -168,6 +176,14 @@ setVars(selected) {
         ReplaceEssenceX2 := 1800
         ReplaceEssenceY1 := 440
         ReplaceEssenceY2 := 1050
+        HpX1 := 200
+        HpX2 := 305
+        HpY1 := 1240
+        HpY2 := 1310
+        spX1 := 915
+        spX2 := 965
+        spY1 := 20
+        spY2 := 80
     }
     else if(selected==2) {
         ; imagepath
@@ -226,6 +242,14 @@ setVars(selected) {
         ReplaceEssenceX2 := 1335
         ReplaceEssenceY1 := 330
         ReplaceEssenceY2 := 760
+        HpX1 := 140
+        HpX2 := 230
+        HpY1 := 920
+        HpY2 := 970
+        spX1 := 680
+        spX2 := 725
+        spY1 := 20
+        spY2 := 65
     }
     else {
         tooltip, Your monitor size is not supported by this macro`nExiting
@@ -284,7 +308,7 @@ F6::ExitApp
                 respawn()
             }
             if(rl==1) {
-                if(checkLvl(7)==0 || checkLvl(8)==0 || checkLvl(9)==0) {
+                if(checkLvl(3)==0 || checkLvl(4)==0 || checkLvl(5)==0) {
                     resetChar()
                     resetLvl(0)
                     respawn()
@@ -335,7 +359,7 @@ F6::ExitApp
 
     clickMainSkip() {
         click, %MainSkipX%, %MainSkipY%
-        sleep, 5000
+        sleep, 750
         clickMainPlay()
         return
     }
@@ -350,7 +374,7 @@ F6::ExitApp
     ; summon
     clickSummonBoth() {
         click, %SummonBothX%, %SummonBothY%
-        sleep, 750
+        sleep, 250
         return
     }
 
@@ -370,13 +394,13 @@ F6::ExitApp
 
     clickResetLvl() {
         click, %ResetLvlX%, %ResetLvlY%
-        sleep, 750
+        sleep, 250
         return
     }
 
     clickResetYes() {
         click, %ResetYesX%, %ResetYesY%
-        sleep, 1500
+        sleep, 750
         return
     }
 
@@ -421,19 +445,19 @@ F6::ExitApp
         send, r
         sleep, 100
         send {enter}
-        sleep, 7500
+        sleep, 4500
         return
     }
 
     exitSpawn() {
         send {Ctrl}
-        send [d down]
-        sleep, 1000
-        send {d up}
+        send, {d down}
+        sleep, 250
+        send, {d up}
         send {Space down}
         send {w down}
         send {d down}
-        sleep, 10000
+        sleep, 6500
         send {Space up}
         send {w up}
         send {d up}
@@ -540,14 +564,29 @@ F6::ExitApp
         imagesearch,,, %LevelsX1%, %LevelsY1%, %LevelsX2%, %LevelsY2%,*20 %A_ScriptDir%%route%\Levels\%level%.png
         return ErrorLevel
     }
+
+    checkHP() {
+        imagesearch,,, %HpX1%, %HpY1%, %HpX2%, %HpY2%,*15 %A_ScriptDir%%route%\HP.png
+        return ErrorLevel
+    }
+    
+    checkSpawn() {
+        imagesearch,,, %spX1%, %spY1%, %spX2%, %spY2%,*15 %A_ScriptDir%%route%\inSpawn.png
+        return ErrorLevel
+    }
     
     checkMenu() {
-        loop, 2 {
-            clickStorageorBack()
+        if(checkSpawn==0) {
+            resetChar()
         }
-        sleep, 750
-        imagesearch,,, %EssenceStorageX1%, %EssenceStorageY1%, %EssenceStorageX2%, %EssenceStorageY2%, %A_ScriptDir%%route%\EssenceStorage.png
-        return ErrorLevel
+        else if(checkHP()==1) {
+            loop, 2 {
+                clickStorageorBack()
+            }
+            imagesearch,,, %EssenceStorageX1%, %EssenceStorageY1%, %EssenceStorageX2%, %EssenceStorageY2%, %A_ScriptDir%%route%\EssenceStorage.png
+            return ErrorLevel
+        }
+        return 1
     }
 
     checkEssence() {
@@ -645,27 +684,3 @@ F6::ExitApp
         else
             return 0
     }
-
-    /*
-    CheckMainMenu() {
-        ;tooltip, maincheck %route%
-        ;sleep, 1000
-        imagesearch,,, %SearchMMX1%, %SearchMMY1%, %SearchMMX2%, %SearchMMY2%,*15 %A_ScriptDir%%route%\SkipMM.png
-        if(ErrorLevel==0) {
-            tooltip, mainskip
-            sleep, 1000
-            clickMainSkip()
-            return true
-        }
-        else {
-            imagesearch,,, %SearchMMX1%, %SearchMMY1%, %SearchMMX2%, %SearchMMY2%,*15 %A_ScriptDir%%route%\PlayMM.png
-            if(ErrorLevel==0) {
-                tooltip, mainplay
-                sleep, 1000
-                clickMainPlay()
-                return true
-            }
-        }
-        return
-    }
-    */
