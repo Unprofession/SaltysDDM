@@ -6,7 +6,7 @@ CoordMode, Pixel, Screen
 CoordMode, Mouse, Screen
 
 ;; INSERT LINK CODE BELOW
-global linkcode = "33444164768514880686224590584302"
+global linkcode = ""
 /*
 A vip link code is the numbers at the end of your vip link
 Here is an example of your vip link
