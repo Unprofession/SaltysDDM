@@ -6,7 +6,7 @@ CoordMode, Pixel, Screen
 CoordMode, Mouse, Screen
 
 ;; INSERT LINK CODE BELOW
-global linkcode = ""
+global linkcode = "33444164768514880686224590584302"
 /*
 A vip link code is the numbers at the end of your vip link
 Here is an example of your vip link
@@ -374,7 +374,7 @@ F6::ExitApp
     ; summon
     clickSummonBoth() {
         click, %SummonBothX%, %SummonBothY%
-        sleep, 250
+        sleep, 150
         return
     }
 
@@ -394,7 +394,7 @@ F6::ExitApp
 
     clickResetLvl() {
         click, %ResetLvlX%, %ResetLvlY%
-        sleep, 250
+        sleep, 150
         return
     }
 
@@ -427,7 +427,7 @@ F6::ExitApp
     ; storage
     clickStorageorBack() {
         click, %StorageorBackX%, %StorageorBackY%
-        sleep, 750
+        sleep, 150
         return
     }
 
@@ -583,6 +583,7 @@ F6::ExitApp
             loop, 2 {
                 clickStorageorBack()
             }
+            sleep, 500
             imagesearch,,, %EssenceStorageX1%, %EssenceStorageY1%, %EssenceStorageX2%, %EssenceStorageY2%, %A_ScriptDir%%route%\EssenceStorage.png
             return ErrorLevel
         }
