@@ -1,3 +1,5 @@
+DDM stands for Divine Duality Macro
+
 This relies on ahk v1.1 to run, you can download that at https://www.autohotkey.com (goto the website to download it)
 
 You're monitor's scale MUST be 100% or else it will not work (go to monitors in settings)
